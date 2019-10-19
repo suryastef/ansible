@@ -19,6 +19,11 @@
       url: https://download.docker.com/linux/centos/docker-ce.repo
       dest: /etc/yum.repos.d/docer-ce.repo
 
+  - name: Install Containerd.io
+    package:
+      name: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+      state: latest
+
   - name: Install Docker
     package:
       name: docker-ce
@@ -33,11 +38,6 @@
   - name: Upgrade pip
     pip:
       name: pip
-      extra_args: --upgrade
-
-  - name: Upgrade pip
-    pip:
-      name: requests
       extra_args: --upgrade
 
   - name: Install docker-compose
