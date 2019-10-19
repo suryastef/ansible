@@ -1,0 +1,9 @@
+---
+- hosts: all
+  tasks:
+    - name: Get Info
+      debug:
+        msg: "{{inventory_hostname}}|{{ansible_distribution}}|{{ansible_distribution_release}}|{{ansible_distribution_version}}"
+    - name: Get Interface
+      debug:
+        msg: "{{ansible_interfaces}} | {{ansible_all_ipv4_addresses}}"

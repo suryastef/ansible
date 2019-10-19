@@ -1,0 +1,46 @@
+---
+- name: Install Docker Community Edition on CentOS 8
+  hosts: all
+  become: true
+
+  tasks:
+  - name: Install dnf utils
+    dnf:
+      name: dnf-utils
+      state: latest
+
+  - name: Install prerequisites
+    dnf:
+      name: ['device-mapper-persistent-data', 'lvm2', 'ca-certificates', 'curl', 'gnupg2', 'python3-pip', 'python3-setuptools', 'virtualenv']
+      state: latest
+
+  - name: Add Docker repo
+    get_url:
+      url: https://download.docker.com/linux/centos/docker-ce.repo
+      dest: /etc/yum.repos.d/docer-ce.repo
+
+  - name: Install Docker
+    package:
+      name: docker-ce
+      state: latest
+
+  - name: Start Docker service
+    service:
+      name: docker
+      state: started
+      enabled: yes
+
+  - name: Upgrade pip
+    pip:
+      name: pip
+      extra_args: --upgrade
+
+  - name: Upgrade pip
+    pip:
+      name: requests
+      extra_args: --upgrade
+
+  - name: Install docker-compose
+    pip:
+      name: docker-compose
+      

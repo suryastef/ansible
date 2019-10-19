@@ -1,0 +1,7 @@
+*
+
+!.gitignore
+!host
+!playbooks/
+!playbooks/*
+!README.md
