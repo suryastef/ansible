@@ -1,24 +1,27 @@
 ---
-- name: Install Docker Community Edition on CentOS 8
+- name: Install Docker Community Edition on CentOS 8.0 and 7.7
   hosts: all
 
   tasks:
-  - name: Install prerequisites
-    dnf:
-      name: ['device-mapper-persistent-data', 'lvm2', 'ca-certificates', 'curl', 'gnupg2', 'python3-pip', 'python3-setuptools', 'virtualenv']
+  - name: Install pip
+    package:
+      name: python3-pip
       state: latest
+      update_cache: yes
     become: true
     
   - name: Add Docker repo
     get_url:
       url: https://download.docker.com/linux/centos/docker-ce.repo
       dest: /etc/yum.repos.d/docer-ce.repo
+    when: ansible_distribution == 'CentOS'
     become: true
     
   - name: Install Containerd.io
     package:
       name: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
       state: latest
+    when: ansible_distribution == 'CentOS' and ansible_distribution_version == '8.0'
     become: true
     
   - name: Install Docker
@@ -37,6 +40,7 @@
   - name: Install docker-compose
     pip:
       name: docker-compose
+      executable: pip3
     become: true
 
   - name: Add current user to docker group
